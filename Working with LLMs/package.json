@@ -1,0 +1,16 @@
+{
+  "name": "working-with-llms",
+  "version": "1.0.0",
+  "description": "##",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --env-file=.env ./app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "groq-sdk": "^0.33.0"
+  }
+}
