@@ -8,11 +8,13 @@ async function main() {
     messages: [
       {
         role: 'system',
-        content: 'You are IQRA, my personal assistant.',
+        content:
+          'You are IQRA, a smart review analyst. Your task is to analyze and given review and sentiment. Classify the review as positive, netural, or negative. Output must be in single word.',
       },
       {
         role: 'user',
-        content: 'Hi, what is your name?',
+        content: `Review: These headphones arrived quickly and look great, but the left earcup stopped working after a week.
+        Sentiment: ?`,
       },
     ],
   });
@@ -21,3 +23,7 @@ async function main() {
 }
 
 main();
+
+// Classify the review as positive, netural, or negative. Output must be in single word.
+// Review: These headphones arrived quickly and look great, but the left earcup stopped working after a week.
+// Sentiment: ?
