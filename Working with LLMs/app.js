@@ -5,27 +5,33 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 async function main() {
   const completion = await groq.chat.completions.create({
     model: 'llama-3.3-70b-versatile',
-    temperature: 1,
-    top_p: 1,
-    stop: null,
-    max_completion_tokens: 1,
-    frequency_penalty: 0,
-    presence_penalty: 0,
+    response_format: { type: 'json_object' },
     messages: [
       {
         role: 'system',
-        content:
-          'You are IQRA, a smart review analyst. Your task is to analyze and given review and sentiment. Classify the review as positive, netural, or negative. Output must be in single word.',
+        content: `You're interview grade assistant. Your task to generate candidate evaluation score.
+        Output must be following JSON structure:
+        {
+          "confidence": number(1-10 scale),
+          "accuracy": number(1-10 scale),
+          "pass": boolean(true or false)
+        }
+        The response must:
+        1. Include all fields shown above,
+        2. Use only the exact field names shown
+        3. Follow the exact data type specified
+        4. Contain only the JSON object and nothing else`,
       },
       {
         role: 'user',
-        content: `Review: These headphones arrived quickly and look great, but the left earcup stopped working after a week.
-        Sentiment: ?`,
+        content: `Write a function highlightLongWords(sentence, length) that takes a string sentence and a number length, and returns the same sentence but wraps every word longer than length in a <span> with class "highlight".
+        Example: highlightLongWords("I love developing web applications", 5);
+        Ouput: I love <span class="highlight">developing</span> web <span class="highlight">applications</span>`,
       },
     ],
   });
 
-  console.log(completion.choices[0].message);
+  console.log(JSON.parse(completion.choices[0].message.content));
 }
 
 main();
