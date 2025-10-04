@@ -104,3 +104,7 @@ async function main() {
 
 main();
 ```
+
+## Tool calling
+
+Providing external tools (api, database, web, etc) to LLMs is called tool calling.

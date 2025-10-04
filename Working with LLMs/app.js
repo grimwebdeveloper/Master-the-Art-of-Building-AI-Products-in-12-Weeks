@@ -5,33 +5,66 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 async function main() {
   const completion = await groq.chat.completions.create({
     model: 'llama-3.3-70b-versatile',
-    response_format: { type: 'json_object' },
+    temperature: 0,
     messages: [
       {
         role: 'system',
-        content: `You're interview grade assistant. Your task to generate candidate evaluation score.
-        Output must be following JSON structure:
-        {
-          "confidence": number(1-10 scale),
-          "accuracy": number(1-10 scale),
-          "pass": boolean(true or false)
-        }
-        The response must:
-        1. Include all fields shown above,
-        2. Use only the exact field names shown
-        3. Follow the exact data type specified
-        4. Contain only the JSON object and nothing else`,
+        content: `You're IQRA my assistant.
+        You have access following tools:
+        1. searchWeb({query}: {query: string}) // Search the latest information and realtime data on the internet.`,
       },
       {
         role: 'user',
-        content: `Write a function highlightLongWords(sentence, length) that takes a string sentence and a number length, and returns the same sentence but wraps every word longer than length in a <span> with class "highlight".
-        Example: highlightLongWords("I love developing web applications", 5);
-        Ouput: I love <span class="highlight">developing</span> web <span class="highlight">applications</span>`,
+        content: `When was iphone 16 launched?`,
       },
     ],
+    tools: [
+      {
+        type: 'function',
+        function: {
+          name: 'webSearch',
+          description:
+            'Search the latest information and realtime data on the internet.',
+          parameters: {
+            type: 'object',
+            properties: {
+              query: {
+                type: 'string',
+                description: 'The search query to perform search on',
+              },
+            },
+            required: ['query'],
+          },
+        },
+      },
+    ],
+    tool_choice: 'auto',
   });
 
-  console.log(JSON.parse(completion.choices[0].message.content));
+  const toolCalls = completion.choices[0].message.tool_calls;
+
+  if (!toolCalls) {
+    console.log('IQRA: ', completion.choices[0].message.content);
+    return;
+  }
+
+  for (const tool of toolCalls) {
+    console.log('Tool', tool);
+    const functionName = tool.function.name;
+    const functionParams = tool.function.arguments;
+
+    if (functionName == 'webSearch') {
+      const toolResult = await webSearch(JSON.parse(functionParams));
+      console.log('Tool Result: ', toolResult);
+    }
+  }
+
+  // console.log(completion.choices[0].message.tool_calls);
 }
 
 main();
+
+function webSearch(query) {
+  console.log('Calling web search...');
+  return 'Iphone was launched on 20 september 2024';
+}
