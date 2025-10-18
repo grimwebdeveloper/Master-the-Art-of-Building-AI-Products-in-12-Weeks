@@ -6,26 +6,31 @@ input?.addEventListener('keyup', handleEnter);
 askBtn?.addEventListener('click', handleAsk);
 
 function generate(text) {
-  // 1. Append user message to UI
-  // 2. Sent it to LLM
-  // 3. Append llm message to UI
+  // 1. append message to ui
   const msg = document.createElement('div');
-  msg.classList = `bg-blue-600 text-white p-3 rounded-xl max-w-xs lg:max-w-md`;
-  msg.textContent = text;
+  msg.className = 'my-6 bg-neutral-800 p-3 rounded-xl ml-auto w-fit';
+  msg.innerText = text;
   chatContainer.appendChild(msg);
   input.value = '';
-}
 
-function handleAsk(e) {
-  const text = input.value.trim();
-  if (!text) return;
-  generate(text);
+  // 2. send it to the llm
+  // 3. append response to the ui
 }
 
 function handleEnter(e) {
   if (e.key === 'Enter') {
-    const text = input.value.trim();
+    const text = input?.value.trim();
+    if (!text) {
+      return;
+    }
     generate(text);
-    if (!text) return;
   }
+}
+
+function handleAsk(e) {
+  const text = input?.value.trim();
+  if (!text) {
+    return;
+  }
+  generate(text);
 }
