@@ -1,0 +1,27 @@
+{
+	"name": "master-the-art-of-building-ai-products-in-12-weeks",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "node index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/grimwebdeveloper/Master-the-Art-of-Building-AI-Products-in-12-Weeks.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/grimwebdeveloper/Master-the-Art-of-Building-AI-Products-in-12-Weeks/issues"
+	},
+	"homepage": "https://github.com/grimwebdeveloper/Master-the-Art-of-Building-AI-Products-in-12-Weeks#readme",
+	"dependencies": {
+		"@tavily/core": "^0.5.12",
+		"dotenv": "^17.2.3",
+		"groq-sdk": "^0.34.0"
+	}
+}
