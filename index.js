@@ -1,8 +1,11 @@
-import Groq from 'groq-sdk';
 import { config } from 'dotenv';
-
 config();
+
+import Groq from 'groq-sdk';
+import { tavily } from '@tavily/core';
+
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const tvly = tavily({ apiKey: process.env.TAVILY_API_KEY });
 
 async function main() {
 	const completion = await groq.chat.completions.create({
@@ -17,7 +20,7 @@ async function main() {
 			},
 			{
 				role: 'user',
-				content: `When was iphone 16 launched?`,
+				content: `When was Next.js 16 released?`,
 			},
 		],
 		tools: [
@@ -66,7 +69,9 @@ async function main() {
 
 main();
 
-function webSearch(query) {
+async function webSearch({ query }) {
 	console.log('Calling web search...');
-	return 'Iphone was launched on 20 september 2024';
+	const response = await tvly.search(query);
+	console.log(response);
+	return 'response';
 }
